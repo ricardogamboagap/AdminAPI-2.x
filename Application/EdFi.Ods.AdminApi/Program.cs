@@ -4,6 +4,7 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 using AspNetCoreRateLimit;
+using EdFi.Ods.AdminApi.AdminConsole.DataAccess;
 using EdFi.Ods.AdminApi.Features;
 using EdFi.Ods.AdminApi.Infrastructure;
 using EdFi.Ods.AdminApi.Infrastructure.MultiTenancy;
@@ -21,6 +22,9 @@ builder.Services.AddInMemoryRateLimiting();
 
 
 builder.AddServices();
+
+//DbSetup
+DbSetup.ConfigureDatabase(builder.Services, builder.Configuration);
 
 // logging
 var _logger = LogManager.GetLogger("Program");
