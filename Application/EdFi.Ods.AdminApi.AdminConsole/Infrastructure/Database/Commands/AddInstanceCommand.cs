@@ -8,6 +8,7 @@ using EdFi.Ods.AdminApi.AdminConsole.DataAccess.Contexts.AdminConsoleSql;
 using EdFi.Ods.AdminApi.AdminConsole.Helpers;
 using EdFi.Ods.AdminApi.AdminConsole.Services;
 using Microsoft.Extensions.Options;
+using System.Text.Json.Nodes;
 
 namespace EdFi.Ods.AdminApi.AdminConsole.Infrastructure.Database.Commands;
 
@@ -31,12 +32,30 @@ public class AddInstanceCommand : IAddInstanceCommand
 
     public AddInstanceResult Execute(IAddInstanceModel applicationModel)
     {
+        JsonNode? jnDocument = JsonNode.Parse(applicationModel.Document);
+
+        var clientId = jnDocument!["clientId"]?.AsValue().ToString();
+        var clientSecret = jnDocument!["clientSecret"]?.AsValue().ToString();
+
+        var encryptedClientId = string.Empty;
+        var encryptedClientSecret = string.Empty;
+
+        if (!string.IsNullOrEmpty(clientId) && !string.IsNullOrEmpty(clientSecret))
+        {
+            _encryptionService.TryEncrypt(clientId, _encryptionKey, out encryptedClientId);
+            _encryptionService.TryEncrypt(clientSecret, _encryptionKey, out encryptedClientSecret);
+
+            jnDocument!["clientId"] = encryptedClientId;
+            jnDocument!["clientSecret"] = encryptedClientSecret;
+        }
+
         var newInstance = new DataAccess.Models.Instance
         {
-            InstanceId = applicationModel.InstanceId,
             DocId = null,
+            InstanceId = applicationModel.InstanceId,
+            TenantId = applicationModel.TenantId,
             EdOrgId = applicationModel.EdOrgId,
-            Document = applicationModel.Document,
+            Document = jnDocument!.ToJsonString(),
         };
 
         _dbContext.Instances.Add(newInstance);
@@ -54,6 +73,7 @@ public interface IAddInstanceModel
 {
     int? DocId { get; set; }
     int? InstanceId { get; set; }
+    int? TenantId { get; set; }
     int? EdOrgId { get; set; }
     string Document { get; set; }
 }

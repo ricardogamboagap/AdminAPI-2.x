@@ -4,9 +4,14 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 using System.Dynamic;
+using EdFi.Ods.AdminApi.AdminConsole.Features.OdsInstances;
+using EdFi.Ods.AdminApi.AdminConsole.Infrastructure.Database.Queries;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Routing;
 using Newtonsoft.Json;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EdFi.Ods.AdminApi.AdminConsole.Features.UserProfiles;
 
@@ -14,11 +19,15 @@ public class ReadInstances : IFeature
 {
     public void MapEndpoints(IEndpointRouteBuilder endpoints)
     {
-        AdminApiAdminConsoleEndpointBuilder.MapGet(endpoints, "/instances", GetOdsInstances)
-           .BuildForVersions();
+        AdminApiAdminConsoleEndpointBuilder.MapGet(endpoints, "/instances", GetInstances)
+            .BuildForVersions();
+
+        AdminApiAdminConsoleEndpointBuilder.MapGet(endpoints, "/instances/{id}", GetInstance)
+            .WithRouteOptions(b => b.WithResponse<InstanceModel>(200))
+            .BuildForVersions();
     }
 
-    internal Task<IResult> GetOdsInstances()
+    internal Task<IResult> GetInstances()
     {
         using (StreamReader r = new StreamReader("Mockdata/data-odsinstances.json"))
         {
@@ -26,5 +35,23 @@ public class ReadInstances : IFeature
             ExpandoObject result = JsonConvert.DeserializeObject<ExpandoObject>(json);
             return Task.FromResult(Results.Ok(result));
         }
+    }
+
+    internal Task<IResult> GetInstance(GetInstanceByIdQuery getInstanceByIdQuery, int docId)
+    {
+        var instance = getInstanceByIdQuery.Execute(docId);
+
+        if (instance == null)
+        {
+            throw new NotFoundException<int>("instance", docId);
+        }
+        return Task.FromResult(Results.Ok(instance));
+
+        //using (StreamReader r = new StreamReader("Mockdata/data-odsinstances.json"))
+        //{
+        //    string json = r.ReadToEnd();
+        //    ExpandoObject result = JsonConvert.DeserializeObject<ExpandoObject>(json);
+        //    return Task.FromResult(Results.Ok(result));
+        //}
     }
 }

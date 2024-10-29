@@ -9,6 +9,7 @@ public class Instance
 {
     public int? DocId { get; set; }
     public int? InstanceId { get; set; }
+    public int? TenantId { get; set; }
     public int? EdOrgId { get; set; }
     public required string Document { get; set; }
 }

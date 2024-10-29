@@ -164,3 +164,21 @@ public static class ValidatorExtensions
             throw new ValidationException(validationResult.Errors);
     }
 }
+
+public interface INotFoundException
+{
+    public string Message { get; }
+}
+
+public class NotFoundException<T> : Exception, INotFoundException
+{
+    public string ResourceName { get; }
+    public T Id { get; }
+
+    public NotFoundException(string resourceName, T id)
+        : base($"Not found: {resourceName} with ID {id}. It may have been recently deleted.")
+    {
+        ResourceName = resourceName;
+        Id = id;
+    }
+}

@@ -21,6 +21,7 @@ namespace EdFi.Ods.AdminApi.AdminConsole.DataAccess.Artifacts.MsSql
                     DocId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     InstanceId = table.Column<int>(type: "int", nullable: false),
+                    TenantId = table.Column<int>(type: "int", nullable: false),
                     EdOrgId = table.Column<int>(type: "int", nullable: false),
                     Document = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -40,6 +41,12 @@ namespace EdFi.Ods.AdminApi.AdminConsole.DataAccess.Artifacts.MsSql
                 schema: "adminconsole",
                 table: "Instances",
                 column: "InstanceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Instances_TenantId",
+                schema: "adminconsole",
+                table: "Instances",
+                column: "TenantId");
         }
 
         /// <inheritdoc />
