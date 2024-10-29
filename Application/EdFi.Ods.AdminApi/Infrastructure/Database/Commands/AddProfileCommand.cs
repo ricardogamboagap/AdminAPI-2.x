@@ -23,7 +23,7 @@ public class AddProfileCommand : IAddProfileCommand
     }
 
     public Profile Execute(IAddProfileModel newProfile)
-    {      
+    {
         var profile = new Profile
         {
            ProfileName = newProfile.Name,

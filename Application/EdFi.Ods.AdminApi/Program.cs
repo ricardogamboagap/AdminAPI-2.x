@@ -4,11 +4,16 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 using AspNetCoreRateLimit;
+using Autofac.Core;
 using EdFi.Ods.AdminApi.AdminConsole.DataAccess;
+using EdFi.Ods.AdminApi.AdminConsole.Helpers;
+using EdFi.Ods.AdminApi.AdminConsole.Services;
 using EdFi.Ods.AdminApi.Features;
+using EdFi.Ods.AdminApi.Helpers;
 using EdFi.Ods.AdminApi.Infrastructure;
 using EdFi.Ods.AdminApi.Infrastructure.MultiTenancy;
 using log4net;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +24,12 @@ builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
 builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
 builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 builder.Services.AddInMemoryRateLimiting();
+
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+builder.Services.AddTransient<IEncryptionKeySettings>(sp => sp.GetService<IOptions<AdminConsoleSettings>>().Value);
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+builder.Services.AddTransient<IEncryptionKeyResolver, OptionsEncryptionKeyResolver>();
+builder.Services.AddScoped<IEncryptionService, EncryptionService>();
 
 
 builder.AddServices();

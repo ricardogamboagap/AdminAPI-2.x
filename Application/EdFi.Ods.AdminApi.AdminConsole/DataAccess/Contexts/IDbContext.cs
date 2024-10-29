@@ -17,5 +17,11 @@ namespace EdFi.Ods.AdminApi.AdminConsole.DataAccess.Contexts
     public interface IDbContext
     {
         DbSet<HealthCheck> HealthChecks { get; set; }
+
+        DbSet<Instance> Instances { get; set; }
+
+        int SaveChanges();
+
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

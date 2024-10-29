@@ -3,6 +3,7 @@ using EdFi.Ods.AdminApi.AdminConsole.DataAccess.Contexts.AdminConsoleSql;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EdFi.Ods.AdminApi.AdminConsole.DataAccess.Artifacts.MsSql
 {
     [DbContext(typeof(AdminConsoleSqlContext))]
-    partial class AdminConsoleSqlContextModelSnapshot : ModelSnapshot
+    [Migration("20241028221843_InstanceTables")]
+    partial class InstanceTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

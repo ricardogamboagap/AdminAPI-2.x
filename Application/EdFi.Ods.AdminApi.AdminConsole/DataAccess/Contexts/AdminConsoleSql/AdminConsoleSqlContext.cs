@@ -15,10 +15,13 @@ namespace EdFi.Ods.AdminApi.AdminConsole.DataAccess.Contexts.AdminConsoleSql
 
         public DbSet<HealthCheck> HealthChecks { get; set; }
 
+        public DbSet<Instance> Instances { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             const string DbProvider = DbProviders.SqlServer;
             modelBuilder.ApplyConfiguration(new HealthCheckConfiguration(DbProvider));
+            modelBuilder.ApplyConfiguration(new InstanceConfiguration(DbProvider));
         }
     }
 }
