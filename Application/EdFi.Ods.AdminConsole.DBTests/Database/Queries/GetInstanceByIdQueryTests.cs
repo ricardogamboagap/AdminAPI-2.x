@@ -37,7 +37,7 @@ public class GetInstanceByIdQueryTests : PlatformUsersContextTestBase
         var newInstance = new TestInstance
         {
             InstanceId = 1,
-            DocId = null,
+            TenantId = 1,
             EdOrgId = 1,
             Document = instanceDocument
         };
@@ -55,6 +55,7 @@ public class GetInstanceByIdQueryTests : PlatformUsersContextTestBase
             var instance = query.Execute(result.DocId);
 
             instance.DocId.ShouldBe(result.DocId);
+            instance.TenantId.ShouldBe(newInstance.TenantId);
             instance.InstanceId.ShouldBe(newInstance.InstanceId);
             instance.EdOrgId.ShouldBe(newInstance.EdOrgId);
             instance.Document.ShouldBe(newInstance.Document);
@@ -63,7 +64,7 @@ public class GetInstanceByIdQueryTests : PlatformUsersContextTestBase
 
     private class TestInstance : IAddInstanceModel
     {
-        public int? DocId { get; set; }
+        public int? TenantId { get; set; }
         public int? InstanceId { get; set; }
         public int? EdOrgId { get; set; }
         public string Document { get; set; }

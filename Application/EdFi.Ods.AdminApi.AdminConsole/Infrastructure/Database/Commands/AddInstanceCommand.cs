@@ -71,7 +71,6 @@ public class AddInstanceCommand : IAddInstanceCommand
 
 public interface IAddInstanceModel
 {
-    int? DocId { get; set; }
     int? InstanceId { get; set; }
     int? TenantId { get; set; }
     int? EdOrgId { get; set; }

@@ -8,6 +8,7 @@ using EdFi.Ods.AdminApi.AdminConsole.Features.OdsInstances;
 using EdFi.Ods.AdminApi.AdminConsole.Infrastructure.Database.Queries;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Routing;
 using Newtonsoft.Json;
@@ -37,7 +38,7 @@ public class ReadInstances : IFeature
         }
     }
 
-    internal Task<IResult> GetInstance(GetInstanceByIdQuery getInstanceByIdQuery, int docId)
+    internal Task<IResult> GetInstance([FromServices] GetInstanceByIdQuery getInstanceByIdQuery, [FromQuery] int docId)
     {
         var instance = getInstanceByIdQuery.Execute(docId);
 

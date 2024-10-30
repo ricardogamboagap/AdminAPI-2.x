@@ -21,7 +21,7 @@ public class AddInstance : IFeature
             .BuildForVersions();
     }
 
-    public async Task<IResult> Handle(Validator validator, AddInstanceRequest request, [FromServices] IAddInstanceCommand addInstanceCommand)
+    public async Task<IResult> Handle([FromServices] Validator validator, [FromBody] AddInstanceRequest request, [FromServices] IAddInstanceCommand addInstanceCommand)
     {
         await validator.GuardAsync(request);
         var addedInstanceResult = addInstanceCommand.Execute(request);
@@ -31,7 +31,6 @@ public class AddInstance : IFeature
 
     public class AddInstanceRequest : IAddInstanceModel
     {
-        public int? DocId { get; set; }
         public int? InstanceId { get; set; }
         public int? TenantId { get; set; }
         public int? EdOrgId { get; set; }

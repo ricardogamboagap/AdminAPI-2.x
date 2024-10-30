@@ -44,7 +44,7 @@ public class AddInstanceCommandTests : PlatformUsersContextTestBase
             var newInstance = new TestInstance
             {
                 InstanceId = 1,
-                DocId = null,
+                TenantId = 1,
                 EdOrgId = 1,
                 Document = instanceDocument
             };
@@ -57,6 +57,7 @@ public class AddInstanceCommandTests : PlatformUsersContextTestBase
             var persistedInstance = dbContext.Instances;
             persistedInstance.Count().ShouldBe(1);
             persistedInstance.First().DocId.ShouldNotBeNull();
+            persistedInstance.First().TenantId.ShouldBe(1);
             persistedInstance.First().InstanceId.ShouldBe(1);
             persistedInstance.First().EdOrgId.ShouldBe(1);
 
@@ -81,7 +82,7 @@ public class AddInstanceCommandTests : PlatformUsersContextTestBase
 
     private class TestInstance : IAddInstanceModel
     {
-        public int? DocId { get; set; }
+        public int? TenantId { get; set; }
         public int? InstanceId { get; set; }
         public int? EdOrgId { get; set; }
         public string Document { get; set; }
