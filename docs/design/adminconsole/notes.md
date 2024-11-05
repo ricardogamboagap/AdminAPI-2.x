@@ -86,10 +86,14 @@ This process has to be called per field of the payload
 - courseTranscripts
 - sections
 
+- Derivied fields:
+  - localEducationAgencyId (int) - the education organizaton ID
+  - healthy (boolean): A flag that return true if the above data have been populated correctly and no error from ODS/API; return false if an error/timeout was encountered
+
 > Unknown fields
 > - basicReportingPeriodAttendances
 > - reportingPeriodExts
-> - localEducationAgencyId: We are assuming this as Ed Org Id but we are not sure about this
+> -
 > - healthy (boolean): We are asumming this as a flag that return true if the above data have been populated correctly and no error from ODS/API
 
 As we have to call multiple endpoints in this one, we are considering use a caching approach (maybe the in-memory provided by .NET will be enough). If we want to refresh the data we can send a flag to the endpoint to do so.
