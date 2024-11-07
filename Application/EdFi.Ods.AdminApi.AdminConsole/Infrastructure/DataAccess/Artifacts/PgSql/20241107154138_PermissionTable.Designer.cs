@@ -3,6 +3,7 @@ using System;
 using EdFi.Ods.AdminApi.AdminConsole.Infrastructure.DataAccess.Contexts.AdminConsolePg;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EdFi.Ods.AdminApi.AdminConsole.Infrastructure.DataAccess.Artifacts.PgSql
 {
     [DbContext(typeof(AdminConsolePgContext))]
-    partial class AdminConsolePgContextModelSnapshot : ModelSnapshot
+    [Migration("20241107154138_PermissionTable")]
+    partial class PermissionTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,68 +58,33 @@ namespace EdFi.Ods.AdminApi.AdminConsole.Infrastructure.DataAccess.Artifacts.PgS
                     b.ToTable("HealthChecks", "adminconsole");
                 });
 
-                modelBuilder.Entity("EdFi.Ods.AdminApi.AdminConsole.Infrastructure.DataAccess.Models.Instance", b =>
-                    {
-                        b.Property<int?>("DocId")
-                            .ValueGeneratedOnAdd()
-                            .HasColumnType("integer");
+            modelBuilder.Entity("EdFi.Ods.AdminApi.AdminConsole.Infrastructure.DataAccess.Models.Instance", b =>
+                {
+                    b.Property<int?>("DocId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
 
-                        NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int?>("DocId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int?>("DocId"));
 
-                        b.Property<string>("Document")
-                            .IsRequired()
-                            .HasColumnType("jsonb");
+                    b.Property<string>("Document")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
 
-                        b.Property<int?>("EdOrgId")
-                            .HasColumnType("integer");
+                    b.Property<int?>("EdOrgId")
+                        .HasColumnType("integer");
 
-                        b.Property<int>("InstanceId")
-                            .HasColumnType("integer");
+                    b.Property<int>("InstanceId")
+                        .HasColumnType("integer");
 
-                        b.Property<int>("TenantId")
-                            .HasColumnType("integer");
+                    b.Property<int>("TenantId")
+                        .HasColumnType("integer");
 
-                        b.HasKey("DocId");
+                    b.HasKey("DocId");
 
-                        b.HasIndex("EdOrgId");
+                    b.HasIndex("EdOrgId");
 
-                        b.HasIndex("InstanceId");
+                    b.HasIndex("InstanceId");
 
-                        b.ToTable("Instances", "adminconsole");
-                    });
-
-                modelBuilder.Entity("EdFi.Ods.AdminApi.AdminConsole.Infrastructure.DataAccess.Models.Tenant", b =>
-                    {
-                        b.Property<int>("DocId")
-                            .ValueGeneratedOnAdd()
-                            .HasColumnType("integer");
-
-                        NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DocId"));
-
-                        b.Property<string>("Document")
-                            .IsRequired()
-                            .HasColumnType("jsonb");
-
-                        b.Property<int>("EdOrgId")
-                            .HasColumnType("integer");
-
-                        b.Property<int>("InstanceId")
-                            .HasColumnType("integer");
-
-                        b.Property<int>("TenantId")
-                            .HasColumnType("integer");
-
-                        b.HasKey("DocId");
-
-                        b.HasIndex("EdOrgId");
-
-                        b.HasIndex("InstanceId");
-
-                        b.HasIndex("TenantId")
-                            .IsUnique();
-
-                        b.ToTable("Tenants", "adminconsole");
-                    });
                     b.ToTable("Instances", "adminconsole");
                 });
 
