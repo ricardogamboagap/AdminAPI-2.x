@@ -4,16 +4,19 @@ using EdFi.Ods.AdminApi.AdminConsole.Infrastructure.DataAccess.Contexts.AdminCon
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace EdFi.Ods.AdminApi.AdminConsole.Infrastructure.DataAccess.Artifacts.MsSql
+namespace EdFi.Ods.AdminApi.AdminConsole.Infrastructure.DataAccess.Artifacts.Mssql
 {
     [DbContext(typeof(AdminConsoleSqlContext))]
-    partial class AdminConsoleSqlContextModelSnapshot : ModelSnapshot
+    [Migration("20241107154028_PermissionTable")]
+    partial class PermissionTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

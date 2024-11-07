@@ -17,6 +17,8 @@ public class AdminConsolePgContext : DbContext, IDbContext
 
     public DbSet<Instance> Instances { get; set; }
 
+    public DbSet<Permission> Permissions { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         const string DbProvider = DbProviders.PostgreSql;
