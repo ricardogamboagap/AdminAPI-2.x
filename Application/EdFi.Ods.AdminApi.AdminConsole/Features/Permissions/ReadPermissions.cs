@@ -4,6 +4,8 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 using System.Dynamic;
+using EdFi.Ods.AdminApi.AdminConsole.Features.OdsInstances;
+using System.Text.Json;
 using EdFi.Ods.AdminApi.AdminConsole.Features.Permissions;
 using EdFi.Ods.AdminApi.AdminConsole.Infrastructure.DataAccess.Models;
 using EdFi.Ods.AdminApi.AdminConsole.Infrastructure.Services.Permissions.Queries;
@@ -29,7 +31,8 @@ public class ReadPermissions : IFeature
     internal async Task<IResult> GetPermissions([FromServices] IGetPermissionsQuery getPermissionQuery)
     {
         var permissions = await getPermissionQuery.Execute();
-        return Results.Ok(permissions.Select(i => i.Document).ToList());
+        IEnumerable<JsonDocument> permissionsList = permissions.Select(i => JsonDocument.Parse(i.Document));
+        return Results.Ok(permissionsList);
     }
 
     internal async Task<IResult> GetPermission([FromServices] IGetPermissionQuery getPermissionQuery, int tenantId)
@@ -37,7 +40,7 @@ public class ReadPermissions : IFeature
         var permission = await getPermissionQuery.Execute(tenantId);
 
         if (permission != null)
-            return Results.Ok(permission.Document);
+            return Results.Ok(JsonDocument.Parse(permission.Document));
 
         return Results.NotFound();
     }
