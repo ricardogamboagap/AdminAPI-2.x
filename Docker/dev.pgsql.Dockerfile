@@ -36,8 +36,8 @@ ENV DB_FOLDER=pgsql
 WORKDIR /app
 COPY --from=build /app/EdFi.Ods.AdminApi .
 
-COPY --chmod=500 Settings/dev/${DB_FOLDER}/run.sh /app/run.sh
-COPY Settings/dev/log4net.config /app/log4net.txt
+COPY --chmod=500 Docker/Settings/dev/${DB_FOLDER}/run.sh /app/run.sh
+COPY Docker/Settings/dev/log4net.config /app/log4net.txt
 
 RUN cp /app/log4net.txt /app/log4net.config && \
     dos2unix /app/*.json && \
